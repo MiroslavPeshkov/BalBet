@@ -10,6 +10,7 @@ import openpyxl
 from openpyxl import Workbook
 import numpy as np
 import datetime
+import random
 
 c = {'ASP.NET_SessionId': 'uspd4czxuxtaiqokiilppwpf',
      '_gat': '1',
@@ -37,7 +38,7 @@ if but:
             count += 1
             print('Page - ', num, 'Work - ', l, 'count - ', count)
             res = requests.get(l, cookies=c)
-            time.sleep(1.5)
+            time.sleep(random.uniform(0.3, 0.8))
             soup = BeautifulSoup(res.text, 'lxml')
             table = soup.find('table', {'class': 'betinfo2'})
             rows = table.find_all('tr')
