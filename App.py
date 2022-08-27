@@ -9,6 +9,7 @@ import streamlit as st
 import openpyxl
 from openpyxl import Workbook
 import numpy as np
+import datetime
 
 c = {'ASP.NET_SessionId': 'uspd4czxuxtaiqokiilppwpf',
      '_gat': '1',
@@ -25,14 +26,14 @@ if but:
     pag = pag.find_all('a')[1].text
     pag = int(pag)
     data = []
-    for num in range(1, 3):  # pag+1
+    for num in range(1, pag+1):  # pag+1
         st.write('Work with page number - ', num)
         res = requests.get('https://old.baltbet.ru/BetsTota.aspx?page={num}', cookies=c)
         soup = BeautifulSoup(res.text, 'lxml')
         list_1 = soup.find('table', {'class': 'totalmain'}).find_all('a')
         list_2 = ['https://old.baltbet.ru/' + i.get('href') for i in list_1]
         count = 0
-        for l in list_2[:5]:
+        for l in list_2:
             count += 1
             print('Page - ', num, 'Work - ', l, 'count - ', count)
             res = requests.get(l, cookies=c)
@@ -52,15 +53,16 @@ if but:
         data_2.append(' ')
     df = pd.DataFrame(data_2, columns=['Result'])
     df = df.T
-    writer = pd.ExcelWriter('Result_list.xlsx')
+    now_date = datetime.datetime.now().strftime('%Y-%m-%d')
+    writer = pd.ExcelWriter(f'Result_list_{now_date}.xlsx')
     df.to_excel(writer, index=False)
     writer.save()
     st.write('Excel done')
-    with open('Result_list.xlsx', "rb") as file:
+    with open(f'Result_list_{now_date}.xlsx', "rb") as file:
         st.download_button(
             label="Download data as EXCEL",
             data=file,
-            file_name=f'Result_list.xlsx',
+            file_name=f'Result_list_{now_date}.xlsx',
             mime='text/xlsx',
         )
 
