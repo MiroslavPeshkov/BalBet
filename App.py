@@ -26,14 +26,14 @@ if but:
     pag = pag.find_all('a')[1].text
     pag = int(pag)
     data = []
-    for num in range(1, pag+1):  # pag+1
+    for num in range(1, 6):  # pag+1
         st.write('Work with page number - ', num)
         res = requests.get('https://old.baltbet.ru/BetsTota.aspx?page={num}', cookies=c)
         soup = BeautifulSoup(res.text, 'lxml')
         list_1 = soup.find('table', {'class': 'totalmain'}).find_all('a')
         list_2 = ['https://old.baltbet.ru/' + i.get('href') for i in list_1]
         count = 0
-        for l in list_2:
+        for l in list_2[:5]:
             count += 1
             print('Page - ', num, 'Work - ', l, 'count - ', count)
             res = requests.get(l, cookies=c)
