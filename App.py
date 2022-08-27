@@ -58,7 +58,7 @@ if but:
     st.write('Excel done')
     with open('Result_list.xlsx', "rb") as file:
         st.download_button(
-            label="Download data as CSV",
+            label="Download data as EXCEL",
             data=file,
             file_name=f'Result_list.xlsx',
             mime='text/xlsx',
